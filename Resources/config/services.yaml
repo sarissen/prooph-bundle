@@ -1,0 +1,23 @@
+parameters:
+
+services:
+    _defaults:
+        public: false
+
+
+    prooph.message_factory:
+        class: AFS\ProophBundle\Prooph\AggregateChangedMessageFactory
+
+    Prooph\Common\Messaging\MessageFactory:
+        alias: prooph_message_factory
+
+    afs.prooph.converter:
+        class: AFS\ProophBundle\Prooph\Converter\AggregateChangedConverter
+        arguments: [ '@serializer', '@serializer' ]
+
+    afs.prooph.aggregate_translator:
+        class: AFS\ProophBundle\Prooph\EventSourcing\AggregateTranslator
+        arguments: [ '@afs.prooph.converter' ]
+
+    Prooph\EventSourcing\Aggregate\AggregateTranslator:
+        alias: afs.prooph.aggregate_translator
