@@ -24,3 +24,11 @@ services:
 
     Prooph\EventSourcing\Aggregate\AggregateTranslator:
         alias: afs.prooph.aggregate_translator
+
+    Prooph\Command\CreateProjectionTableCommand:
+        tags:
+            - { name: 'console.command', command: 'afs:prooph:projection-table' }
+
+    Prooph\Command\CreateStreamTableCommand:
+        tags:
+            - { name: 'console.command', command: 'afs:prooph:stream-table' }
