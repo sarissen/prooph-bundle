@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace AFS\ProophBundle\Command;
+namespace AFS\ProophBundle\Prooph\Command;
 
 
 use Doctrine\DBAL\Connection;
