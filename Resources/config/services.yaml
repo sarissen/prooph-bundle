@@ -8,7 +8,7 @@ services:
         class: AFS\ProophBundle\Prooph\AggregateChangedMessageFactory
 
     Prooph\Common\Messaging\MessageFactory:
-        alias: prooph_message_factory
+        alias: prooph.message_factory
 
     afs.prooph.converter:
         class: AFS\ProophBundle\Prooph\Converter\AggregateChangedConverter
@@ -23,3 +23,7 @@ services:
 
     Prooph\EventSourcing\Aggregate\AggregateTranslator:
         alias: afs.prooph.aggregate_translator
+
+    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: -980 }
