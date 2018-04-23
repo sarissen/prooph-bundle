@@ -31,33 +31,52 @@ class AggregateChangedConverter implements AggregateChangedConverterInterface
         $this->denormalizer = $denormalizer;
     }
 
-    public function toAggregateChanged(string $aggregateId, array $events): array
+    public function toAggregateChangedArray(string $aggregateId, array $events): array
     {
         $proophEvents = [];
 
         foreach ($events as $event) {
             if(!$event instanceof AggregateChanged){
-                $proophEvent = AggregateChanged::occur($aggregateId, $this->normalizer->normalize($event->event()), ['message_name' => get_class($event->event())]);
-                $proophEvent->withVersion($event->version());
-                $proophEvents[] = $proophEvent;
+                $proophEvents[] = $this->toAggregateChanged($aggregateId, $event);
             }
         }
 
         return $proophEvents;
     }
 
-    public function fromAggregateChanged(\Iterator $proophEvents): \Iterator
+    public function fromAggregateChangedStream(\Iterator $proophEvents): \Iterator
     {
         $events = new \ArrayIterator();
 
         foreach ($proophEvents as $proophEvent)
         {
-            $event = new VersionedEvent($this->denormalizer->denormalize($proophEvent->payload(), $proophEvent->messageName()), $proophEvent->version());
-
-            $events->append($event);
+            $events->append($this->fromAggregateChanged($proophEvent));
         }
 
         return $events;
     }
 
+    /**
+     * @param string $aggregateId
+     * @param VersionedEvent $event
+     * @return AggregateChanged
+     */
+    public function toAggregateChanged(string $aggregateId, VersionedEvent $event): AggregateChanged
+    {
+        if(!$event instanceof AggregateChanged){
+            $proophEvent = AggregateChanged::occur($aggregateId, $this->normalizer->normalize($event->event()), ['message_name' => get_class($event->event())]);
+            $proophEvent->withVersion($event->version());
+        }
+
+        return $proophEvent;
+    }
+
+    /**
+     * @param AggregateChanged $proophEvent
+     * @return VersionedEvent
+     */
+    public function fromAggregateChanged(AggregateChanged $proophEvent): VersionedEvent
+    {
+        return new VersionedEvent($this->denormalizer->denormalize($proophEvent->payload(), $proophEvent->messageName()), $proophEvent->version());
+    }
 }

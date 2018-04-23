@@ -111,7 +111,7 @@ final class EventPublisher extends AbstractPlugin
     {
         $events = new \ArrayIterator();
         $events->append($event);
-        $convertedEvents = $this->converter->fromAggregateChanged($events);
+        $convertedEvents = $this->converter->fromAggregateChangedStream($events);
         $convertedEvents->rewind();
         return $convertedEvents->current()->event();
     }
