@@ -40,3 +40,8 @@ services:
         arguments: [ '@event_bus', '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
+
+    prooph_event_store.projection_store:
+        class: Prooph\EventStore\ActionEventEmitterEventStore
+        factory: ['Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory', create]
+        arguments: [ '@Prooph\EventStore\EventStore', 'Prooph\Common\Event\ProophActionEventEmitter' ]
