@@ -50,11 +50,11 @@ services:
     prooph_event_store.projection_store:
         class: Prooph\EventStore\ActionEventEmitterEventStore
         factory: 'Prooph\Bundle\EventStore\Factory\EventStoreFactory:createEventStore'
-        arguments: [
-            'projection_store',
-            '@Prooph\EventStore\EventStore',
-            '@Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory',
-            'Prooph\Common\Event\ProophActionEventEmitter',
-            true,
-            '@prooph_event_store.plugins_locator'
-        ]
+        arguments:
+            - 'projection_store',
+            - '@Prooph\EventStore\EventStore',
+            - '@Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory',
+            - 'Prooph\Common\Event\ProophActionEventEmitter',
+            - true,
+            - '@prooph_event_store.plugins_locator'
+
