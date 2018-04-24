@@ -6,7 +6,8 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Prooph\EventSourcing\Aggregate;
 
 
-use AFS\ProophBundle\Prooph\EventStore\Plugin\EventSourcing\VersionedEvent;
+
+use AFS\ProophBundle\Prooph\EventSourcing\VersionedEvent;
 
 trait EventProducerTrait
 {

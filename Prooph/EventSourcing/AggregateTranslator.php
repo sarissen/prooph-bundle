@@ -7,7 +7,7 @@ namespace AFS\ProophBundle\Prooph\EventSourcing;
 
 
 use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\AbstractEntityDecorator;
-use AFS\ProophBundle\Prooph\EventStore\Plugin\EventSourcing\Converter\AggregateChangedConverterInterface;
+use AFS\ProophBundle\Prooph\EventSourcing\Converter\AggregateChangedConverterInterface;
 use Iterator;
 use Prooph\Common\Messaging\Message;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator as BaseTranslator;
