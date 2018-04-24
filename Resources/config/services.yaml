@@ -41,10 +41,20 @@ services:
         tags:
             - { name: 'prooph_event_store.plugin' }
 
+    Prooph\Bundle\EventStore\Factory\EventStoreFactory:
+        alias: Prooph\Bundle\EventStore\Factory\DefaultEventStoreFactory
+
     Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory:
         alias: Prooph\Bundle\EventStore\Factory\DefaultActionEventEmitterFactory
 
     prooph_event_store.projection_store:
         class: Prooph\EventStore\ActionEventEmitterEventStore
-        factory: ['Prooph\Bundle\EventStore\Factory\DefaultActionEventEmitterFactory', create]
-        arguments: [ '@Prooph\EventStore\EventStore', 'Prooph\Common\Event\ProophActionEventEmitter' ]
+        factory: 'Prooph\Bundle\EventStore\Factory\EventStoreFactory:createEventStore'
+        arguments: [
+            'projection_store',
+            '@Prooph\EventStore\EventStore',
+            '@Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory',
+            'Prooph\Common\Event\ProophActionEventEmitter',
+            true,
+            '@prooph_event_store.plugins_locator'
+        ]
