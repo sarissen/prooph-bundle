@@ -19,11 +19,11 @@
         "prooph/event-sourcing": "^5.3",
         "prooph/event-store": "^7.3",
         "prooph/event-store-symfony-bundle": "^0.4",
+        "prooph/pdo-event-store": "^1.7@dev",
         "symfony/console": "^4.1",
         "symfony/framework-bundle": "^4.1",
         "symfony/serializer-pack": "^1.0",
-        "symfony/yaml": "^4.1",
-        "prooph/pdo-event-store": "^1.7@dev"
+        "symfony/yaml": "^4.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.1"

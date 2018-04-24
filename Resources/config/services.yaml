@@ -27,3 +27,8 @@ services:
     Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: -980 }
+
+    AFS\ProophBundle\Prooph\EventPublisher:
+        arguments: [ '@event_bus', '@afs.prooph.converter' ]
+        tags:
+            - { name: 'prooph_event_store.plugin' }
