@@ -41,6 +41,10 @@ services:
         tags:
             - { name: 'prooph_event_store.plugin' }
 
+
+    Prooph\Bundle\EventStore\Factory\DefaultActionEventEmitterFactory: ~
+    Prooph\Bundle\EventStore\Factory\DefaultEventStoreFactory: ~
+
     Prooph\Bundle\EventStore\Factory\EventStoreFactory:
         alias: Prooph\Bundle\EventStore\Factory\DefaultEventStoreFactory
 
