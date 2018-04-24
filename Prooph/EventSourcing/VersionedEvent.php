@@ -36,4 +36,9 @@ class VersionedEvent
         return $this->version;
     }
 
+    public function messageName(): string
+    {
+        return get_class($this->event);
+    }
+
 }
