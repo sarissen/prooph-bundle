@@ -6,10 +6,12 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Prooph\EventSourcing;
 
 
-class AggregateChanged extends \Prooph\EventSourcing\AggregateChanged
+use Prooph\EventSourcing\AggregateChanged as OriginalAggregateChanged;
+
+class AggregateChanged extends OriginalAggregateChanged
 {
 
-    public static function occur(string $aggregateId, array $payload = [], array $metadata = []): \Prooph\EventSourcing\AggregateChanged
+    public static function occur(string $aggregateId, array $payload = [], array $metadata = []): OriginalAggregateChanged
     {
         return new static($aggregateId, $payload, $metadata);
     }

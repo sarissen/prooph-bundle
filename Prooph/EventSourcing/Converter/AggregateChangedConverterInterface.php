@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 
-namespace AFS\ProophBundle\Prooph\Converter;
+namespace AFS\ProophBundle\Prooph\EventSourcing\Converter;
 
 
-use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\VersionedEvent;
+
 use AFS\ProophBundle\Prooph\EventSourcing\AggregateChanged;
+use AFS\ProophBundle\Prooph\EventSourcing\VersionedEvent;
 
 interface AggregateChangedConverterInterface
 {

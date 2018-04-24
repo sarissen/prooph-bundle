@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AFS\ProophBundle\Prooph;
+namespace AFS\ProophBundle\Prooph\EventStore\Plugin;
 
 use AFS\BusBundle\Messenger\Bus\EventBusInterface;
-use AFS\ProophBundle\Prooph\Converter\AggregateChangedConverterInterface;
+use AFS\ProophBundle\Prooph\EventSourcing\Converter\AggregateChangedConverterInterface;
 use Prooph\Common\Event\ActionEvent;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\ActionEventEmitterEventStore;
@@ -13,7 +13,7 @@ use Prooph\EventStore\EventStore;
 use Prooph\EventStore\Plugin\AbstractPlugin;
 use Prooph\EventStore\TransactionalActionEventEmitterEventStore;
 
-final class EventPublisher extends AbstractPlugin
+final class EventPublisherPlugin extends AbstractPlugin
 {
     /**
      * @var EventBusInterface
@@ -56,7 +56,8 @@ final class EventPublisher extends AbstractPlugin
                 } else {
                     $this->cachedEventStreams[] = $recordedEvents;
                 }
-            }
+            },
+            PluginPriorities::PUBLISH
         );
 
         $this->listenerHandlers[] = $eventStore->attach(
@@ -76,7 +77,8 @@ final class EventPublisher extends AbstractPlugin
                 } else {
                     $this->cachedEventStreams[] = $recordedEvents;
                 }
-            }
+            },
+            PluginPriorities::PUBLISH
         );
 
         if ($eventStore instanceof TransactionalActionEventEmitterEventStore) {
@@ -89,24 +91,34 @@ final class EventPublisher extends AbstractPlugin
                         }
                     }
                     $this->cachedEventStreams = [];
-                }
+                },
+                PluginPriorities::PUBLISH
             );
 
             $this->listenerHandlers[] = $eventStore->attach(
                 TransactionalActionEventEmitterEventStore::EVENT_ROLLBACK,
                 function (ActionEvent $event): void {
                     $this->cachedEventStreams = [];
-                }
+                },
+                PluginPriorities::PUBLISH
             );
         }
     }
 
+    /**
+     * @param EventStore $eventStore
+     * @return bool
+     */
     private function inTransaction(EventStore $eventStore): bool
     {
         return $eventStore instanceof TransactionalActionEventEmitterEventStore
             && $eventStore->inTransaction();
     }
 
+    /**
+     * @param AggregateChanged $event
+     * @return mixed
+     */
     private function constructEvent(AggregateChanged $event)
     {
         $events = new \ArrayIterator();

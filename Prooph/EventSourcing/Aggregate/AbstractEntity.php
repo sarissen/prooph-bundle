@@ -6,9 +6,6 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Prooph\EventSourcing\Aggregate;
 
 
-use Prooph\EventSourcing\AggregateChanged;
-use Prooph\EventSourcing\AggregateRoot;
-
 /**
  * Contains generic date created/updated fields for logging/auditing purposes
  */

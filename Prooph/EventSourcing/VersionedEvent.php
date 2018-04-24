@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace AFS\ProophBundle\Prooph\EventSourcing\Aggregate;
+namespace AFS\ProophBundle\Prooph\EventSourcing;
 
 
 class VersionedEvent

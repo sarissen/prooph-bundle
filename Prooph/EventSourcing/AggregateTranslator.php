@@ -6,14 +6,12 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Prooph\EventSourcing;
 
 
-use AFS\ProophBundle\Prooph\Converter\AggregateChangedConverterInterface;
 use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\AbstractEntityDecorator;
+use AFS\ProophBundle\Prooph\EventStore\Plugin\EventSourcing\Converter\AggregateChangedConverterInterface;
 use Iterator;
 use Prooph\Common\Messaging\Message;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator as BaseTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AggregateTranslator implements BaseTranslator
 {
@@ -99,6 +97,9 @@ class AggregateTranslator implements BaseTranslator
         $this->getAggregateRootDecorator()->replayStreamEvents($anEventSourcedAggregateRoot, $convertedEvents);
     }
 
+    /**
+     * @return AbstractEntityDecorator
+     */
     public function getAggregateRootDecorator(): AbstractEntityDecorator
     {
         if (null === $this->aggregateRootDecorator) {
@@ -108,6 +109,9 @@ class AggregateTranslator implements BaseTranslator
         return $this->aggregateRootDecorator;
     }
 
+    /**
+     * @param AbstractEntityDecorator $anAggregateRootDecorator
+     */
     public function setAggregateRootDecorator(AbstractEntityDecorator $anAggregateRootDecorator): void
     {
         $this->aggregateRootDecorator = $anAggregateRootDecorator;

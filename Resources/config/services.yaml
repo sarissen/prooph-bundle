@@ -11,7 +11,7 @@ services:
         alias: prooph.message_factory
 
     afs.prooph.converter:
-        class: AFS\ProophBundle\Prooph\Converter\AggregateChangedConverter
+        class: AFS\ProophBundle\Prooph\EventSourcing\Converter\AggregateChangedConverter
         arguments: [ '@serializer', '@serializer' ]
 
     AFS\ProophBundle\Prooph\Converter\AggregateChangedConverterInterface:
@@ -28,7 +28,15 @@ services:
         tags:
             - { name: 'serializer.normalizer', priority: -980 }
 
-    AFS\ProophBundle\Prooph\EventPublisher:
+    AFS\ProophBundle\Prooph\EventPublisherPlugin:
+        arguments: [ '@event_bus', '@afs.prooph.converter' ]
+        tags:
+            - { name: 'prooph_event_store.plugin' }
+    AFS\ProophBundle\Prooph\ProjectionPlugin:
+        arguments: [ '@event_bus', '@afs.prooph.converter' ]
+        tags:
+            - { name: 'prooph_event_store.plugin' }
+    AFS\ProophBundle\Prooph\EventStore\Plugin\EventConverterPlugin:
         arguments: [ '@event_bus', '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
