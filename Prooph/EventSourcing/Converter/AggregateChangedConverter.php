@@ -48,9 +48,9 @@ class AggregateChangedConverter implements AggregateChangedConverterInterface
     {
         $events = new \ArrayIterator();
 
-        foreach ($proophEvents as $proophEvent)
+        foreach ($proophEvents as $key => $proophEvent)
         {
-            $events->append($this->fromAggregateChanged($proophEvent));
+            $events[$key] = $proophEvent;
         }
 
         return $events;
