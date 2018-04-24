@@ -9,7 +9,7 @@ namespace AFS\ProophBundle\Prooph\EventStore\Plugin;
 abstract class PluginPriorities
 {
 
-    const CONVERT = 2;
+    const CONVERT_LOAD = -1;
     const PROJECTION = -1;
     const PUBLISH = -2;
 

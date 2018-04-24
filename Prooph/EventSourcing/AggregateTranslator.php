@@ -68,10 +68,8 @@ class AggregateTranslator implements BaseTranslator
             $aggregateRootClass = $aggregateType->toString();
         }
 
-        $convertedEvents = $this->converter->fromAggregateChangedStream($historyEvents);
-
         return $this->getAggregateRootDecorator()
-            ->fromHistory($aggregateRootClass, $convertedEvents);
+            ->fromHistory($aggregateRootClass, $historyEvents);
     }
 
     /**
@@ -93,8 +91,7 @@ class AggregateTranslator implements BaseTranslator
      */
     public function replayStreamEvents($anEventSourcedAggregateRoot, Iterator $events): void
     {
-        $convertedEvents = $this->converter->fromAggregateChangedStream($events);
-        $this->getAggregateRootDecorator()->replayStreamEvents($anEventSourcedAggregateRoot, $convertedEvents);
+        $this->getAggregateRootDecorator()->replayStreamEvents($anEventSourcedAggregateRoot, $events);
     }
 
     /**
