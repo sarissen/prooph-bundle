@@ -51,10 +51,10 @@ services:
         class: Prooph\EventStore\ActionEventEmitterEventStore
         factory: 'Prooph\Bundle\EventStore\Factory\EventStoreFactory:createEventStore'
         arguments:
-            - 'projection_store',
-            - '@Prooph\EventStore\EventStore',
-            - '@Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory',
-            - 'Prooph\Common\Event\ProophActionEventEmitter',
-            - true,
+            - 'projection_store'
+            - '@Prooph\EventStore\EventStore'
+            - '@Prooph\Bundle\EventStore\Factory\ActionEventEmitterFactory'
+            - 'Prooph\Common\Event\ProophActionEventEmitter'
+            - 1
             - '@prooph_event_store.plugins_locator'
 
