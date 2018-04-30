@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.2",
         "ext-iconv": "*",
-        "afs/bus-bundle": "^0.1",
+        "afs/bus-bundle": "^0.2",
         "prooph/common": "^4.2",
         "prooph/event-sourcing": "^5.3",
         "prooph/event-store": "^7.3",
