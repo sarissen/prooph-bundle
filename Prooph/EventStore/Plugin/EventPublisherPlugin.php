@@ -12,11 +12,12 @@ use Prooph\EventStore\ActionEventEmitterEventStore;
 use Prooph\EventStore\EventStore;
 use Prooph\EventStore\Plugin\AbstractPlugin;
 use Prooph\EventStore\TransactionalActionEventEmitterEventStore;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class EventPublisherPlugin extends AbstractPlugin
 {
     /**
-     * @var EventBusInterface
+     * @var MessageBusInterface
      */
     private $eventBus;
 
@@ -30,7 +31,7 @@ final class EventPublisherPlugin extends AbstractPlugin
      */
     private $converter;
 
-    public function __construct(EventBusInterface $eventBus, AggregateChangedConverterInterface $converter)
+    public function __construct(MessageBusInterface $eventBus, AggregateChangedConverterInterface $converter)
     {
         $this->eventBus = $eventBus;
         $this->converter = $converter;

@@ -16,11 +16,6 @@ final class EventConverterPlugin extends AbstractPlugin
 {
 
     /**
-     * @var EventBusInterface
-     */
-    private $eventBus;
-
-    /**
      * @var \Iterator[]
      */
     private $cachedEventStreams = [];
@@ -30,9 +25,8 @@ final class EventConverterPlugin extends AbstractPlugin
      */
     private $converter;
 
-    public function __construct(EventBusInterface $eventBus, AggregateChangedConverterInterface $converter)
+    public function __construct(AggregateChangedConverterInterface $converter)
     {
-        $this->eventBus = $eventBus;
         $this->converter = $converter;
     }
 

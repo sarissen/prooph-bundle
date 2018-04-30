@@ -29,15 +29,14 @@ services:
             - { name: 'serializer.normalizer', priority: -980 }
 
     AFS\ProophBundle\Prooph\EventStore\Plugin\EventPublisherPlugin:
-        arguments: [ '@event_bus', '@afs.prooph.converter' ]
+        arguments: [ '@message_bus', '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
     AFS\ProophBundle\Prooph\EventStore\Plugin\ProjectionPlugin:
-        arguments: [ '@event_bus', '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
     AFS\ProophBundle\Prooph\EventStore\Plugin\EventConverterPlugin:
-        arguments: [ '@event_bus', '@afs.prooph.converter' ]
+        arguments: [ '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
 
