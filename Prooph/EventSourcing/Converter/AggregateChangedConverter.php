@@ -65,7 +65,7 @@ class AggregateChangedConverter implements AggregateChangedConverterInterface
     {
         if(!$event instanceof AggregateChanged){
             $proophEvent = AggregateChanged::occur($aggregateId, $this->normalizer->normalize($event->event()), ['message_name' => get_class($event->event())]);
-            $proophEvent->withVersion($event->version());
+            $proophEvent = $proophEvent->withVersion($event->version());
         }
 
         return $proophEvent;
