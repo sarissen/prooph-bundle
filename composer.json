@@ -24,7 +24,8 @@
         "symfony/framework-bundle": "^4.1",
         "symfony/serializer-pack": "^1.0",
         "symfony/yaml": "^4.1",
-        "doctrine/dbal": "^2.8@dev"
+        "doctrine/dbal": "^2.8@dev",
+        "doctrine/doctrine-bundle": "^1.9@dev"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.1"

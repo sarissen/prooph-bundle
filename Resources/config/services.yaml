@@ -24,10 +24,6 @@ services:
     Prooph\EventSourcing\Aggregate\AggregateTranslator:
         alias: afs.prooph.aggregate_translator
 
-    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
-        tags:
-            - { name: 'serializer.normalizer', priority: -980 }
-
     AFS\ProophBundle\Prooph\EventStore\Plugin\EventPublisherPlugin:
         arguments: [ '@message_bus', '@afs.prooph.converter' ]
         tags:
@@ -39,6 +35,16 @@ services:
         arguments: [ '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
+
+    AFS\ProophBundle\Prooph\Command\CreateProjectionTableCommand:
+        arguments: [ '@doctrine.dbal.default_connection' ]
+        tags:
+            - { name: 'console.command', command: 'afs:prooph:projection-table' }
+
+    AFS\ProophBundle\Prooph\Command\CreateStreamTableCommand:
+        arguments: [ '@doctrine.dbal.default_connection' ]
+        tags:
+            - { name: 'console.command', command: 'afs:prooph:stream-table' }
 
 
     Prooph\Bundle\EventStore\Factory\DefaultActionEventEmitterFactory: ~
