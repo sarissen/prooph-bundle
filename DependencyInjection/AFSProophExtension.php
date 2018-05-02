@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\DependencyInjection;
 
 
+use AFS\ProophBundle\Messenger\MessageProjectorInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -24,6 +25,9 @@ class AFSProophExtension extends Extension
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yaml');
+
+        $container->registerForAutoconfiguration(MessageProjectorInterface::class)
+            ->addTag('messenger.message_projector');
     }
 
 }
