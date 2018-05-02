@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace AFS\ProophBundle;
 
 
+use AFS\ProophBundle\DependencyInjection\Compiler\MessageProjectionPass;
 use AFS\ProophBundle\DependencyInjection\Compiler\OverrideProjectionManagerFactoryPass;
 use AFS\ProophBundle\DependencyInjection\Compiler\RegisterCommandsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,6 +21,7 @@ class AFSProophBundle extends Bundle
 
         $container->addCompilerPass(new OverrideProjectionManagerFactoryPass());
         $container->addCompilerPass(new RegisterCommandsPass());
+        $container->addCompilerPass(new MessageProjectionPass());
     }
 
 }
