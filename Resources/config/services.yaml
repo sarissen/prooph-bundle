@@ -64,3 +64,11 @@ services:
             - 1
             - '@prooph_event_store.plugins_locator'
 
+    messenger.projection_locator:
+        class: AFS\ProophBundle\Messenger\Locator\ContainerProjectionLocator
+        arguments: [ '@service_container' ]
+
+    messenger.middleware.projection:
+        class: AFS\ProophBundle\Messenger\Middleware\ProjectMessageMiddleware
+        arguments: [ '@messenger.projection_locator' ]
+

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AFS\ProophBundle\Messenger\Middleware;
 
+use AFS\ProophBundle\Messenger\Locator\ProjectionLocatorInterface;
 use Symfony\Component\Messenger\MiddlewareInterface;
 
 class ProjectMessageMiddleware implements MiddlewareInterface
