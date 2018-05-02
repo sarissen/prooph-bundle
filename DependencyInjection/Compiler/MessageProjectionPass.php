@@ -82,7 +82,7 @@ class MessageProjectionPass implements CompilerPassInterface
         $definitions = array();
         foreach ($projectorsByMessage as $message => $projectors) {
             if (1 === \count($projectors)) {
-                $handlersByMessage[$message] = current($projectors);
+                $projectorsByMessage[$message] = current($projectors);
             } else {
                 $d = new Definition(ChainProjector::class, array($projectors));
                 $d->setPrivate(true);
