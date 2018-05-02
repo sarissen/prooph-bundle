@@ -18,13 +18,13 @@ class ContainerProjectionLocator implements ProjectionLocatorInterface
         $this->container = $container;
     }
 
-    public function resolve($message): callable
+    public function resolve($message): ?callable
     {
         $messageClass = \get_class($message);
         $handlerKey = 'handler.'.$messageClass;
 
         if (!$this->container->has($handlerKey)) {
-            throw new NoProjectionForMessageException(sprintf('No handler for message "%s".', $messageClass));
+            return null;
         }
 
         return $this->container->get($handlerKey);

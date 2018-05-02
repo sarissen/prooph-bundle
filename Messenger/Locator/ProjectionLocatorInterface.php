@@ -17,5 +17,5 @@ interface ProjectionLocatorInterface
      *
      * @return callable
      */
-    public function resolve($message): callable;
+    public function resolve($message): ?callable;
 }

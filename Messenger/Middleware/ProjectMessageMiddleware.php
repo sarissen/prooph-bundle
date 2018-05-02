@@ -23,11 +23,14 @@ class ProjectMessageMiddleware implements MiddlewareInterface
     public function handle($message, callable $next)
     {
         $projector = $this->messageProjectorLocator->resolve($message);
-        $result = $projector($message);
 
-        $next($message);
+        if(!$projector){
+            return $next($message);
+        }
 
-        return $result;
+        $projector($message);
+
+        return $next($message);
     }
 
 }
