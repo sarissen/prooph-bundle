@@ -6,7 +6,8 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Messenger\Locator;
 
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Psr\Container\ContainerInterface;
 
 class ContainerProjectionLocator implements ProjectionLocatorInterface
 {

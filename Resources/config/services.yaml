@@ -71,4 +71,6 @@ services:
     messenger.middleware.projection:
         class: AFS\ProophBundle\Messenger\Middleware\ProjectMessageMiddleware
         arguments: [ '@messenger.projection_resolver' ]
+        tags:
+            - { name: messenger.bus_middleware, priority: -1 }
 
