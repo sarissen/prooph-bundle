@@ -10,7 +10,6 @@ abstract class PluginPriorities
 {
 
     const CONVERT_LOAD = -1;
-    const PROJECTION = -1;
     const PUBLISH = -2;
 
 }
