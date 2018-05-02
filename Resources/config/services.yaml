@@ -28,9 +28,6 @@ services:
         arguments: [ '@message_bus', '@afs.prooph.converter' ]
         tags:
             - { name: 'prooph_event_store.plugin' }
-    AFS\ProophBundle\Prooph\EventStore\Plugin\ProjectionPlugin:
-        tags:
-            - { name: 'prooph_event_store.plugin' }
     AFS\ProophBundle\Prooph\EventStore\Plugin\EventConverterPlugin:
         arguments: [ '@afs.prooph.converter' ]
         tags:
