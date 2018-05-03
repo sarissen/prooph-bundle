@@ -6,20 +6,17 @@ declare(strict_types=1);
 namespace AFS\ProophBundle\Prooph\EventSourcing;
 
 
-use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\AbstractEntityDecorator;
+use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\EventProducingAggregateInterface;
+use AFS\ProophBundle\Prooph\EventSourcing\Aggregate\EventSourcedAggregateInterface;
 use AFS\ProophBundle\Prooph\EventSourcing\Converter\AggregateChangedConverterInterface;
 use Iterator;
 use Prooph\Common\Messaging\Message;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator as BaseTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
+use RuntimeException;
 
 class AggregateTranslator implements BaseTranslator
 {
-
-    /**
-     * @var AbstractEntityDecorator
-     */
-    protected $aggregateRootDecorator;
 
     /**
      * @var AggregateChangedConverterInterface
@@ -37,23 +34,23 @@ class AggregateTranslator implements BaseTranslator
     }
 
     /**
-     * @param mixed $eventSourcedAggregateRoot
+     * @param EventSourcedAggregateInterface|EventProducingAggregateInterface $eventSourcedAggregateRoot
      *
      * @return int
      */
     public function extractAggregateVersion($eventSourcedAggregateRoot): int
     {
-        return $this->getAggregateRootDecorator()->extractAggregateVersion($eventSourcedAggregateRoot);
+        return $eventSourcedAggregateRoot->getVersion();
     }
 
     /**
-     * @param mixed $anEventSourcedAggregateRoot
+     * @param EventSourcedAggregateInterface|EventProducingAggregateInterface $anEventSourcedAggregateRoot
      *
      * @return string
      */
     public function extractAggregateId($anEventSourcedAggregateRoot): string
     {
-        return $this->getAggregateRootDecorator()->extractAggregateId($anEventSourcedAggregateRoot);
+        return $anEventSourcedAggregateRoot->aggregateId();
     }
 
     /**
@@ -68,50 +65,35 @@ class AggregateTranslator implements BaseTranslator
             $aggregateRootClass = $aggregateType->toString();
         }
 
-        return $this->getAggregateRootDecorator()
-            ->fromHistory($aggregateRootClass, $historyEvents);
+        if (! class_exists($aggregateRootClass) || !$aggregateRootClass instanceof EventSourcedAggregateInterface) {
+            throw new RuntimeException(
+                sprintf('Aggregate root class %s cannot be found', $aggregateRootClass)
+            );
+        }
+
+        $aggregateRootClass::reconstituteFromHistory($historyEvents);
     }
 
     /**
-     * @param mixed $anEventSourcedAggregateRoot
+     * @param EventProducingAggregateInterface $anEventSourcedAggregateRoot
      *
      * @return Message[]
      */
     public function extractPendingStreamEvents($anEventSourcedAggregateRoot): array
     {
-        $pendingEvents = $this->getAggregateRootDecorator()->extractRecordedEvents($anEventSourcedAggregateRoot);
+        $pendingEvents = $anEventSourcedAggregateRoot->popRecordedEvents();
         return $this->converter->toAggregateChangedArray($this->extractAggregateId($anEventSourcedAggregateRoot), $pendingEvents);
     }
 
     /**
-     * @param mixed $anEventSourcedAggregateRoot
+     * @param EventSourcedAggregateInterface $anEventSourcedAggregateRoot
      * @param Iterator $events
      *
      * @return void
      */
     public function replayStreamEvents($anEventSourcedAggregateRoot, Iterator $events): void
     {
-        $this->getAggregateRootDecorator()->replayStreamEvents($anEventSourcedAggregateRoot, $events);
-    }
-
-    /**
-     * @return AbstractEntityDecorator
-     */
-    public function getAggregateRootDecorator(): AbstractEntityDecorator
-    {
-        if (null === $this->aggregateRootDecorator) {
-            $this->aggregateRootDecorator = AbstractEntityDecorator::newInstance();
-        }
-
-        return $this->aggregateRootDecorator;
-    }
-
-    /**
-     * @param AbstractEntityDecorator $anAggregateRootDecorator
-     */
-    public function setAggregateRootDecorator(AbstractEntityDecorator $anAggregateRootDecorator): void
-    {
-        $this->aggregateRootDecorator = $anAggregateRootDecorator;
+        $anEventSourcedAggregateRoot->replay($events);
     }
 
 }
