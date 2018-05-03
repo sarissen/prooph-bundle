@@ -22,13 +22,13 @@ class ContainerProjectionLocator implements ProjectionLocatorInterface
     public function resolve($message): ?callable
     {
         $messageClass = \get_class($message);
-        $handlerKey = 'handler.'.$messageClass;
+        $projectorKey = 'projector.'.$messageClass;
 
-        if (!$this->container->has($handlerKey)) {
+        if (!$this->container->has($projectorKey)) {
             return null;
         }
 
-        return $this->container->get($handlerKey);
+        return $this->container->get($projectorKey);
     }
 
 }
