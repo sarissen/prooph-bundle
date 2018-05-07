@@ -71,7 +71,7 @@ class AggregateTranslator implements BaseTranslator
             );
         }
 
-        $aggregateRootClass::reconstituteFromHistory($historyEvents);
+        return $aggregateRootClass::reconstituteFromHistory($historyEvents);
     }
 
     /**
