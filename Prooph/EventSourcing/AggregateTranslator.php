@@ -65,7 +65,7 @@ class AggregateTranslator implements BaseTranslator
             $aggregateRootClass = $aggregateType->toString();
         }
 
-        if (! class_exists($aggregateRootClass) || is_subclass_of($aggregateRootClass, EventSourcedAggregateInterface::class)) {
+        if (! class_exists($aggregateRootClass) || !is_subclass_of($aggregateRootClass, EventSourcedAggregateInterface::class)) {
             throw new RuntimeException(
                 sprintf('Aggregate root class %s cannot be found', $aggregateRootClass)
             );
